@@ -2,6 +2,7 @@ package Backend;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileHandling {
@@ -11,7 +12,14 @@ public class FileHandling {
 	 * @return the full content of the file
 	 */
 	public static String getContentOfFile() throws IOException {
-		byte[] fileInBytes = Files.readAllBytes(Paths.get(Constants.SETTINGS_FILE_PATH));
+		
+		Path settingsFile = Paths.get(Constants.SETTINGS_FILE_PATH);
+		
+		if(!Files.exists(settingsFile)){
+			Files.createFile(settingsFile);
+		}
+		
+		byte[] fileInBytes = Files.readAllBytes(settingsFile);
 		
 		return new String(fileInBytes);
 	}
